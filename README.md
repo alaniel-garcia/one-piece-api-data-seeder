@@ -2,7 +2,7 @@
 
 ## Description: 
 
-The One Piece Data Seeder repository is responsible for populating the One Piece API's MongoDB database with initial data. It contains the necessary code to generate and insert data into the database, following the defined schema and validations. The repository focuses on the data population process and provides a convenient way to seed the database with pre-defined or custom data.
+The One Piece API Data Seeder repository is responsible for populating the One Piece API's MongoDB database with initial data. It contains the necessary code to generate and insert data into the database, following the defined schema and validations. The repository focuses on the data population process and provides a convenient way to seed the database with pre-defined or custom data.
 
 ## Features:
 
