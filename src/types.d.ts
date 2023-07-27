@@ -56,7 +56,7 @@ export interface CharacterDocument extends Document {
   status: Status;
   birthday?: string;
   main_occupations?: Array<string>;
-  devil_fruit?: LuffyDevilFruitSubDoc | SubDocument | Array<SubDocument>;
+  devil_fruit?: NewSubDoc | Array<NewSubDoc>;
   haki_abilities?: Array<HakiAbilities>;
   bounties?: Array<string>;
   height?: string;
@@ -82,10 +82,11 @@ export interface RaceDocument extends Document {
 export interface DevilFruitDocument extends Document {
   id: number;
   name: string;
+  alias?: 'Gomu Gomu no Mi'; // Apply only for Hito Hito no Mi, Model: Nika
   type: DevilFruitType;
   meaning: string;
   description: string;
-  current_user: SubDocument;
+  current_user?: SubDocument;
   image?: string;
   url: string;
   created: string;

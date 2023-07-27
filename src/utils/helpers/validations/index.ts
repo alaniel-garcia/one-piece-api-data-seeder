@@ -130,7 +130,8 @@ export function generateValidSubDocUrl(path: CollectionsPaths, imageUrl = false)
   return firstPartUrl.concat(secondPartUrl);
 }
 
-export function validateNewSubDoc(subdoc: NewSubDoc): true {
+// new subdocs based validations
+export function newValidateSubDoc(subdoc: NewSubDoc): true {
   try {
     validatePositiveNonZeroInteger(subdoc as number);
   } catch (error) {
@@ -139,5 +140,25 @@ export function validateNewSubDoc(subdoc: NewSubDoc): true {
     if (!isValidObjectId)
       throw new Error(`Sub doc must be a positive non zero number or valid ObjectId. Rejected value: ${subdoc}`);
   }
+  return true;
+}
+
+export function newValidateSubDocsArray(array: Array<NewSubDoc>): true {
+  for (const subdoc of array) {
+    newValidateSubDoc(subdoc);
+  }
+
+  return true;
+}
+
+export function newValidateSubDocArraysDuplicity(array: Array<NewSubDoc>): true {
+  const references = new Set();
+  for (const ref of array) {
+    if (references.has(ref)) {
+      throw new Error('Input Array must not have duplicate property values between sub documents');
+    }
+    references.add(ref);
+  }
+
   return true;
 }

@@ -3,15 +3,15 @@ import {
   validateBackstory,
   validateBirthday,
   validateBounties,
-  validateCharacterDevilFruit,
   validateDebut,
   validateCharacterHakiAbilities,
   validateHeight,
-  validateStatus
+  validateStatus,
+  newValidateCharacterDevilFruit
 } from '@utils/helpers/validations/characterValidations';
 import {
   validateIsoStringDate,
-  validateNewSubDoc,
+  newValidateSubDoc,
   validatePositiveNonZeroInteger,
   validateString,
   validateStringArray,
@@ -51,7 +51,7 @@ const characterSchema: mongoose.Schema<CharacterDocument> = new Schema<Character
       type: Schema.Types.ObjectId,
       _id: false,
       required: true,
-      validate: validateNewSubDoc
+      validate: newValidateSubDoc
     },
     origin: {
       type: String,
@@ -75,8 +75,7 @@ const characterSchema: mongoose.Schema<CharacterDocument> = new Schema<Character
     },
     devil_fruit: {
       type: Schema.Types.Mixed,
-      _id: false,
-      validate: validateCharacterDevilFruit
+      validate: newValidateCharacterDevilFruit
     },
     haki_abilities: {
       default: undefined,

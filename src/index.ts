@@ -4,6 +4,8 @@ import models from './models';
 import { characterSeeder } from '@seeds/characterSeeder';
 import { raceSeeder } from '@seeds/raceSeeder';
 import Race from '@models/Race';
+import { devilFruitSeeder } from '@seeds/devilFruitSeeder';
+import Devil_fruit from '@models/Devil_fruit';
 
 dotenv.config();
 
@@ -16,9 +18,12 @@ const Character = models.characters;
 
   await Character.deleteMany({});
   await Race.deleteMany({});
+  await Devil_fruit.deleteMany({});
 
   await raceSeeder();
   console.log('Total races: ', await Race.countDocuments());
+  await devilFruitSeeder();
+  console.log('Total devil fruits: ', await Devil_fruit.countDocuments());
   await characterSeeder();
   console.log('Total characters: ', await Character.countDocuments());
 })().catch((error) => {

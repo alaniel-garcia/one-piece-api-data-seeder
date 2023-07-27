@@ -1,5 +1,7 @@
 import type { HakiAbilityName, LuffyDevilFruitSubDoc, Status, SubDocument } from 'types';
 import {
+  newValidateSubDocArraysDuplicity,
+  newValidateSubDoc,
   validateNonEmptyString,
   validateString,
   validateStringArray,
@@ -8,6 +10,7 @@ import {
 } from '.';
 import { validateDevilFruitName } from './devilFruitValidations';
 import { validateHakiAbilityName } from './hakiAbilityValidations';
+import type { Schema } from 'mongoose';
 
 export function validateStatus(value: Status): true {
   const VALID_STATUSES = ['Alive', 'Deceased', 'Unknown'];
@@ -140,5 +143,22 @@ export function validateBackstory(value: string): true {
 
   if (!(words.length >= 50 && words.length <= 230))
     throw new Error(`Invalid backstory length. Must be between 50 and 230 words. Received: ${words.length}`);
+  return true;
+}
+
+// new subdocs based validations
+export function newValidateCharacterDevilFruit(value: Schema.Types.ObjectId | Array<Schema.Types.ObjectId>): true {
+  if (Array.isArray(value)) {
+    if (!(value.length >= 2)) throw new Error('Input devil fruit must be an array of at least 2 elements');
+
+    value.forEach((element) => {
+      newValidateSubDoc(element);
+    });
+
+    newValidateSubDocArraysDuplicity(value);
+  } else {
+    newValidateSubDoc(value);
+  }
+
   return true;
 }
