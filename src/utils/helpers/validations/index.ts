@@ -4,7 +4,8 @@
 // General validations
 
 import { BASE_URL, collections } from '@utils/index';
-import type { CollectionsPaths, SubDocument } from 'types';
+import mongoose from 'mongoose';
+import type { CollectionsPaths, NewSubDoc, SubDocument } from 'types';
 
 export function validateFirstStringLetterUppercase(value: string): true {
   const regexFirstLetterUppercase = /^[A-Z]/;
@@ -127,4 +128,16 @@ export function generateValidSubDocUrl(path: CollectionsPaths, imageUrl = false)
   const secondPartUrl = imageUrl ? `/image/${integer}` : `/${integer}`;
 
   return firstPartUrl.concat(secondPartUrl);
+}
+
+export function validateNewSubDoc(subdoc: NewSubDoc): true {
+  try {
+    validatePositiveNonZeroInteger(subdoc as number);
+  } catch (error) {
+    const isValidObjectId = mongoose.isValidObjectId(subdoc);
+
+    if (!isValidObjectId)
+      throw new Error(`Sub doc must be a positive non zero number or valid ObjectId. Rejected value: ${subdoc}`);
+  }
+  return true;
 }

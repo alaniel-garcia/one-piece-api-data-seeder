@@ -1,4 +1,4 @@
-import type { Document } from 'mongoose';
+import type { Document, Schema } from 'mongoose';
 
 // API paths
 
@@ -21,6 +21,8 @@ export interface SubDocument {
   url: string;
 }
 
+export type NewSubDoc = number | Schema.Types.ObjectId;
+
 export interface Membership extends SubDocument {
   type: 'Crew' | 'Group';
 }
@@ -37,7 +39,7 @@ export interface LuffyDevilFruitSubDoc extends SubDocument {
   alias: 'Gomu Gomu no Mi';
 }
 
-export type Race = SubDocument;
+export type Race = NewSubDoc;
 export type HakiAbility = SubDocument & { name: HakiAbilityName };
 export type Status = 'Alive' | 'Deceased' | 'Unknown';
 export type HakiAbilityName = 'Armament' | 'Observation' | 'Conqueror';

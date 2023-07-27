@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import models from './models';
 import { characterSeeder } from '@seeds/characterSeeder';
+import { raceSeeder } from '@seeds/raceSeeder';
+import Race from '@models/Race';
 
 dotenv.config();
 
@@ -13,10 +15,12 @@ const Character = models.characters;
   console.log('Connected to Database!');
 
   await Character.deleteMany({});
+  await Race.deleteMany({});
 
+  await raceSeeder();
+  console.log('Total races: ', await Race.countDocuments());
   await characterSeeder();
-
-  console.log(await Character.countDocuments());
+  console.log('Total characters: ', await Character.countDocuments());
 })().catch((error) => {
   console.log('Error while connecting to Database', error);
 });
