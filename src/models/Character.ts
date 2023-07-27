@@ -11,10 +11,10 @@ import {
 } from '@utils/helpers/validations/characterValidations';
 import {
   validateIsoStringDate,
+  validateNewSubDoc,
   validatePositiveNonZeroInteger,
   validateString,
   validateStringArray,
-  validateSubDoc,
   validateUrl
 } from '@utils/helpers/validations';
 import type { CharacterDocument } from 'types';
@@ -48,23 +48,10 @@ const characterSchema: mongoose.Schema<CharacterDocument> = new Schema<Character
       validate: validateString
     },
     race: {
-      type: {
-        id: {
-          type: Number,
-          required: true
-        },
-        name: {
-          type: String,
-          required: true
-        },
-        url: {
-          type: String
-          // required: true
-        }
-      },
+      type: Schema.Types.ObjectId,
       _id: false,
       required: true,
-      validate: validateSubDoc
+      validate: validateNewSubDoc
     },
     origin: {
       type: String,

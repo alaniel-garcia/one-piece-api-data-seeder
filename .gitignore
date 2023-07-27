@@ -3,6 +3,7 @@ build
 
 ### population data files ###
 data
+dataProcessing
 
 ### future sources ###
 _sources

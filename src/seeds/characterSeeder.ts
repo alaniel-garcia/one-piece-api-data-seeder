@@ -1,8 +1,11 @@
 import fs from 'fs';
 import Character from '@models/Character';
 import type { CharacterDocument } from 'types';
+import { getRaceInCharacterReference } from 'references';
 
-const characterDocuments: Array<CharacterDocument> = JSON.parse(fs.readFileSync('src/data/Characters.json', 'utf-8'));
+const characterDocuments: Array<CharacterDocument> = JSON.parse(
+  fs.readFileSync('src/data/copyOfCharacters.json', 'utf-8')
+);
 
 export async function characterSeeder(): Promise<void> {
   for (const doc of characterDocuments) {
@@ -16,7 +19,7 @@ async function saveDocument(doc: CharacterDocument): Promise<void> {
   newCharacter.id = doc.id;
   newCharacter.name = doc.name;
   newCharacter.gender = doc.gender;
-  newCharacter.race = doc.race;
+  newCharacter.race = await getRaceInCharacterReference(doc.race as number);
   newCharacter.origin = doc.origin;
   newCharacter.status = doc.status;
   if (doc.birthday != null) newCharacter.birthday = doc.birthday;
@@ -30,9 +33,7 @@ async function saveDocument(doc: CharacterDocument): Promise<void> {
   if (doc.image != null) newCharacter.image = doc.image;
 
   try {
-    const savedCharacter = await newCharacter.save();
-
-    console.log('Character created: ', savedCharacter.id);
+    await newCharacter.save();
   } catch (err: any) {
     throw new Error(err);
   }
