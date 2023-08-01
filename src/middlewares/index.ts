@@ -1,28 +1,8 @@
-import type {
-  CharacterDocument,
-  CollectionsPaths,
-  CrewDocument,
-  DevilFruitDocument,
-  GroupDocument,
-  HakiAbilityDocument,
-  LocationDocument,
-  MemberDocument,
-  RaceDocument,
-  ShipDocument
-} from 'types';
+import type { CollectionsPaths, DocumentTypes, MemberDocument } from 'types';
 import { BASE_URL } from '@utils/index';
 import type mongoose from 'mongoose';
-
-type DocumentTypes =
-  | CharacterDocument
-  | RaceDocument
-  | DevilFruitDocument
-  | HakiAbilityDocument
-  | GroupDocument
-  | CrewDocument
-  | MemberDocument
-  | ShipDocument
-  | LocationDocument;
+import models from '@models/index';
+import type { Model } from 'mongoose';
 
 export function generateImageField<
   // exclude Member document type because Member has no image property
@@ -77,6 +57,23 @@ export function validation<T extends DocumentTypes>(schema: mongoose.Schema<T>):
       await document.validate();
     } catch (error: any) {
       next(new Error(error));
+    }
+
+    next();
+  });
+}
+
+export function markFieldAsModified<T extends DocumentTypes>(
+  schema: mongoose.Schema<T>,
+  modelName: string,
+  fieldToMark: keyof T
+): void {
+  schema.pre('save', async function (next) {
+    if (!this.isNew) {
+      const model = models[modelName] as Model<T>;
+      const currentDocumentInDB = (await model.findOne({ _id: this._id })) as T;
+      if (currentDocumentInDB != null && currentDocumentInDB[fieldToMark] !== this[fieldToMark])
+        this.markModified(fieldToMark as string);
     }
 
     next();

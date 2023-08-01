@@ -23,7 +23,8 @@ import {
   generateImageField,
   setLastUpdatedField,
   generateUrlField,
-  validation
+  validation,
+  markFieldAsModified
 } from '@middlewares/index';
 
 const { Schema } = mongoose;
@@ -158,6 +159,7 @@ generateImageField(characterSchema, 'characters');
 generateUrlField(characterSchema, 'characters');
 generateCreatedField(characterSchema);
 setLastUpdatedField(characterSchema);
+markFieldAsModified(characterSchema, 'characters', 'devil_fruit');
 validation(characterSchema);
 
 export default mongoose.model<CharacterDocument>('Character', characterSchema);

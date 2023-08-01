@@ -47,6 +47,17 @@ export type DevilFruitType = 'Paramecia' | 'Logia' | 'Zoan' | 'Mythical Zoan';
 
 // Documents
 
+export type DocumentTypes =
+  | CharacterDocument
+  | RaceDocument
+  | DevilFruitDocument
+  | HakiAbilityDocument
+  | GroupDocument
+  | CrewDocument
+  | MemberDocument
+  | ShipDocument
+  | LocationDocument;
+
 export interface CharacterDocument extends Document {
   id: number;
   name: string;
