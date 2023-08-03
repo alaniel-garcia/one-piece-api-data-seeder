@@ -66,14 +66,22 @@ export function validation<T extends DocumentTypes>(schema: mongoose.Schema<T>):
 export function markFieldAsModified<T extends DocumentTypes>(
   schema: mongoose.Schema<T>,
   modelName: string,
-  fieldToMark: keyof T
+  ...fielsdToMark: Array<keyof T>
 ): void {
   schema.pre('save', async function (next) {
+    // Check if the document is not new, as we don't need to mark fields if it's a new document
     if (!this.isNew) {
       const model = models[modelName] as Model<T>;
       const currentDocumentInDB = (await model.findOne({ _id: this._id })) as T;
-      if (currentDocumentInDB != null && currentDocumentInDB[fieldToMark] !== this[fieldToMark])
-        this.markModified(fieldToMark as string);
+
+      if (currentDocumentInDB != null) {
+        for (const field of fielsdToMark) {
+          // Compare the current value of the field with the value in the database
+          // If they are different, mark the field as modified
+          if (JSON.stringify(currentDocumentInDB[field]) !== JSON.stringify(this[field]))
+            this.markModified(field as string);
+        }
+      }
     }
 
     next();
