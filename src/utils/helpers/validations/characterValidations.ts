@@ -1,4 +1,4 @@
-import type { HakiAbilityName, LuffyDevilFruitSubDoc, Status, SubDocument } from 'types';
+import type { LuffyDevilFruitSubDoc, Status, SubDocument } from 'types';
 import {
   newValidateSubDocArraysDuplicity,
   newValidateSubDoc,
@@ -9,7 +9,6 @@ import {
   validateSubDocArraysDuplicity
 } from '.';
 import { validateDevilFruitName } from './devilFruitValidations';
-import { validateHakiAbilityName } from './hakiAbilityValidations';
 import type { Schema } from 'mongoose';
 
 export function validateStatus(value: Status): true {
@@ -62,19 +61,6 @@ export function validateCharacterDevilFruit(value: LuffyDevilFruitSubDoc | SubDo
     }
   }
 
-  return true;
-}
-
-export function validateCharacterHakiAbilities(value: Array<SubDocument>): true {
-  if (!(Array.isArray(value) && value.length >= 1 && value.length <= 3))
-    throw new Error('Haki abilities array must have between 1 and 3 elements');
-
-  value.forEach((element) => {
-    validateSubDoc(element);
-    validateHakiAbilityName(element.name as HakiAbilityName);
-  });
-
-  validateSubDocArraysDuplicity(value);
   return true;
 }
 

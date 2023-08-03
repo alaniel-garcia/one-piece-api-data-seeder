@@ -39,10 +39,7 @@ export interface LuffyDevilFruitSubDoc extends SubDocument {
   alias: 'Gomu Gomu no Mi';
 }
 
-export type Race = NewSubDoc;
-export type HakiAbility = SubDocument & { name: HakiAbilityName };
 export type Status = 'Alive' | 'Deceased' | 'Unknown';
-export type HakiAbilityName = 'Armament' | 'Observation' | 'Conqueror';
 export type DevilFruitType = 'Paramecia' | 'Logia' | 'Zoan' | 'Mythical Zoan';
 
 // Documents
@@ -62,13 +59,13 @@ export interface CharacterDocument extends Document {
   id: number;
   name: string;
   gender: string;
-  race: Race;
+  race: Schema.Types.ObjectId;
   origin: string;
   status: Status;
   birthday?: string;
   main_occupations?: Array<string>;
   devil_fruit?: NewSubDoc | Array<NewSubDoc>;
-  haki_abilities?: Array<HakiAbilities>;
+  haki_abilities?: Array<Schema.Types.ObjectId>;
   bounties?: Array<string>;
   height?: string;
   debut: Array<string>;

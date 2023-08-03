@@ -12,7 +12,6 @@ import {
   validateString,
   validateUrl
 } from '@utils/helpers/validations';
-import { validateHakiAbilityName } from '@utils/helpers/validations/hakiAbilityValidations';
 import mongoose from 'mongoose';
 import type { HakiAbilityDocument } from 'types';
 
@@ -30,7 +29,7 @@ const hakiAbilitySchema = new Schema<HakiAbilityDocument>(
       type: String,
       required: true,
       unique: true,
-      validate: validateHakiAbilityName
+      enum: ['Armament', 'Observation', 'Conqueror']
     },
     description: {
       type: String,
