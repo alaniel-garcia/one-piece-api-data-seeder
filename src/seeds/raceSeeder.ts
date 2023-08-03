@@ -8,8 +8,6 @@ export async function raceSeeder(): Promise<void> {
   for (const doc of raceDocuments) {
     await saveDocument(doc);
   }
-
-  // when race collection is populated, this function updates references for race in character
 }
 
 async function saveDocument(doc: RaceDocument): Promise<void> {

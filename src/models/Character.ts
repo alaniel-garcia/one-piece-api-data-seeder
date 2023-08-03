@@ -4,7 +4,6 @@ import {
   validateBirthday,
   validateBounties,
   validateDebut,
-  validateCharacterHakiAbilities,
   validateHeight,
   validateStatus,
   newValidateCharacterDevilFruit
@@ -15,7 +14,8 @@ import {
   validatePositiveNonZeroInteger,
   validateString,
   validateStringArray,
-  validateUrl
+  validateUrl,
+  newValidateSubDocsArray
 } from '@utils/helpers/validations';
 import type { CharacterDocument } from 'types';
 import {
@@ -80,26 +80,9 @@ const characterSchema: mongoose.Schema<CharacterDocument> = new Schema<Character
     },
     haki_abilities: {
       default: undefined,
-      type: [
-        {
-          id: {
-            type: Number,
-            required: true,
-            validate: validatePositiveNonZeroInteger
-          },
-          name: {
-            type: String,
-            required: true,
-            enum: ['Armament', 'Observation', 'Conqueror']
-          },
-          url: {
-            type: String
-            // required: true
-          }
-        }
-      ],
+      type: [Schema.Types.Mixed],
       _id: false,
-      validate: validateCharacterHakiAbilities
+      validate: newValidateSubDocsArray
     },
     bounties: {
       default: undefined,
@@ -159,7 +142,7 @@ generateImageField(characterSchema, 'characters');
 generateUrlField(characterSchema, 'characters');
 generateCreatedField(characterSchema);
 setLastUpdatedField(characterSchema);
-markFieldAsModified(characterSchema, 'characters', 'devil_fruit');
+markFieldAsModified(characterSchema, 'characters', 'devil_fruit', 'haki_abilities');
 validation(characterSchema);
 
 export default mongoose.model<CharacterDocument>('Character', characterSchema);

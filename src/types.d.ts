@@ -108,7 +108,7 @@ export interface HakiAbilityDocument extends Document {
   id: number;
   name: string;
   description: string;
-  users: Array<SubDocument>;
+  users: Array<Schema.Types.ObjectId>;
   image: string;
   url: string;
   created: string;
