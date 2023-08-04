@@ -1,14 +1,11 @@
-import type { LuffyDevilFruitSubDoc, Status, SubDocument } from 'types';
+import type { Status } from 'types';
 import {
-  newValidateSubDocArraysDuplicity,
-  newValidateSubDoc,
+  ValidateSubDocArraysDuplicity,
+  ValidateSubDoc,
   validateNonEmptyString,
   validateString,
-  validateStringArray,
-  validateSubDoc,
-  validateSubDocArraysDuplicity
+  validateStringArray
 } from '.';
-import { validateDevilFruitName } from './devilFruitValidations';
 import type { Schema } from 'mongoose';
 
 export function validateStatus(value: Status): true {
@@ -30,36 +27,6 @@ export function validateBirthday(value: string): true {
     throw new Error(
       'Invalid birthday format. Provide a valid date in the format "Month Name Day", where Month Name is the name of a month (January to December) and Day is a number between 1 and 31'
     );
-
-  return true;
-}
-
-export function validateCharacterDevilFruit(value: LuffyDevilFruitSubDoc | SubDocument | Array<SubDocument>): true {
-  if (Array.isArray(value)) {
-    if (!(value.length >= 2)) throw new Error('Input devil fruit must be an array of at least 2 elements');
-
-    value.forEach((element) => {
-      validateSubDoc(element);
-      validateDevilFruitName(element.name);
-    });
-
-    validateSubDocArraysDuplicity(value);
-  } else {
-    validateSubDoc(value);
-    validateDevilFruitName(value.name);
-
-    if (value.id === 1) {
-      if ('alias' in value) {
-        if (!(value.alias === 'Gomu Gomu no Mi' && value.name === 'Hito Hito no Mi, Model: Nika'))
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          throw new Error(
-            `For luffy's devil fruit: name must be 'Hito Hito no Mi, Model: Nika'. Received: ${value.name}. And only valid alias is the string "Gomu Gomu no Mi". Received: ${value.alias}`
-          );
-      } else {
-        throw new Error('Devil fruit of id 1 belongs to "Monkey D. Luffy". Argument must have "alias" property');
-      }
-    }
-  }
 
   return true;
 }
@@ -133,17 +100,17 @@ export function validateBackstory(value: string): true {
 }
 
 // new subdocs based validations
-export function newValidateCharacterDevilFruit(value: Schema.Types.ObjectId | Array<Schema.Types.ObjectId>): true {
+export function ValidateCharacterDevilFruit(value: Schema.Types.ObjectId | Array<Schema.Types.ObjectId>): true {
   if (Array.isArray(value)) {
     if (!(value.length >= 2)) throw new Error('Input devil fruit must be an array of at least 2 elements');
 
     value.forEach((element) => {
-      newValidateSubDoc(element);
+      ValidateSubDoc(element);
     });
 
-    newValidateSubDocArraysDuplicity(value);
+    ValidateSubDocArraysDuplicity(value);
   } else {
-    newValidateSubDoc(value);
+    ValidateSubDoc(value);
   }
 
   return true;

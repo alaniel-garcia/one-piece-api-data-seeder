@@ -15,23 +15,7 @@ export type CollectionsPaths =
 
 // Subdocs and enums
 
-export interface SubDocument {
-  id: number;
-  name: string;
-  url: string;
-}
-
-export type NewSubDoc = number | Schema.Types.ObjectId;
-
-export interface Membership extends SubDocument {
-  type: 'Crew' | 'Group';
-}
-
-export interface Ownership {
-  id?: number;
-  type: string;
-  name?: string;
-}
+export type Reference = number | Schema.Types.ObjectId;
 
 export interface LuffyDevilFruitSubDoc extends SubDocument {
   id: 1;
@@ -64,7 +48,7 @@ export interface CharacterDocument extends Document {
   status: Status;
   birthday?: string;
   main_occupations?: Array<string>;
-  devil_fruit?: NewSubDoc | Array<NewSubDoc>;
+  devil_fruit?: Reference | Array<Reference>;
   haki_abilities?: Array<Schema.Types.ObjectId>;
   bounties?: Array<string>;
   height?: string;
@@ -115,7 +99,7 @@ export interface HakiAbilityDocument extends Document {
 export interface GroupDocument extends Document {
   id: number;
   name: string;
-  members: Array<SubDocument>;
+  members: Array<Reference>;
   background: string;
   image?: string;
   url: string;
@@ -126,10 +110,10 @@ export interface GroupDocument extends Document {
 export interface CrewDocument extends Document {
   id: number;
   name: string;
-  captain: SubDocument;
+  captain: Schema.Types.ObjectId;
   flag?: string;
-  main_ship?: SubDocument;
-  members: Array<SubDocument>;
+  main_ship?: Reference;
+  members: Array<Reference>;
   background: string;
   image?: string;
   url: string;
@@ -139,8 +123,9 @@ export interface CrewDocument extends Document {
 
 export interface MemberDocument extends Document {
   id: number;
-  character: SubDocument & { image?: string };
-  membership: Membership;
+  character: Schema.Types.ObjectId;
+  membership_type: 'Crew' | 'Group';
+  membership: Schema.Types.ObjectId;
   rol: string;
   status: string;
   details: string;
@@ -153,7 +138,8 @@ export interface ShipDocument extends Document {
   id: number;
   name: string;
   description: string;
-  ownership: Ownership;
+  ownership_type: 'Crew' | 'Group';
+  ownership: Schema.Types.ObjectId;
   flag?: string;
   image?: string;
   url: string;

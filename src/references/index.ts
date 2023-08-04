@@ -68,7 +68,7 @@ export async function updateHakiAbilitiesInCharacter(): Promise<void> {
         const updatedReferences: Array<Schema.Types.ObjectId> = [];
 
         doc.haki_abilities.forEach((id) => {
-          updatedReferences.push(idToObjectId[id]);
+          updatedReferences.push(idToObjectId[id as unknown as number]);
         });
 
         doc.haki_abilities = updatedReferences;

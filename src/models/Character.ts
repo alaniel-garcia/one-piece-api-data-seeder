@@ -6,16 +6,16 @@ import {
   validateDebut,
   validateHeight,
   validateStatus,
-  newValidateCharacterDevilFruit
+  ValidateCharacterDevilFruit
 } from '@utils/helpers/validations/characterValidations';
 import {
   validateIsoStringDate,
-  newValidateSubDoc,
+  ValidateSubDoc,
   validatePositiveNonZeroInteger,
   validateString,
   validateStringArray,
   validateUrl,
-  newValidateSubDocsArray
+  ValidateSubDocsArray
 } from '@utils/helpers/validations';
 import type { CharacterDocument } from 'types';
 import {
@@ -52,7 +52,7 @@ const characterSchema: mongoose.Schema<CharacterDocument> = new Schema<Character
       type: Schema.Types.ObjectId,
       _id: false,
       required: true,
-      validate: newValidateSubDoc
+      validate: ValidateSubDoc
     },
     origin: {
       type: String,
@@ -76,13 +76,13 @@ const characterSchema: mongoose.Schema<CharacterDocument> = new Schema<Character
     },
     devil_fruit: {
       type: Schema.Types.Mixed,
-      validate: newValidateCharacterDevilFruit
+      validate: ValidateCharacterDevilFruit
     },
     haki_abilities: {
       default: undefined,
       type: [Schema.Types.Mixed],
       _id: false,
-      validate: newValidateSubDocsArray
+      validate: ValidateSubDocsArray
     },
     bounties: {
       default: undefined,

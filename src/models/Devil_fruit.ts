@@ -6,7 +6,7 @@ import {
   validation
 } from '@middlewares/index';
 import {
-  newValidateSubDocsArray,
+  ValidateSubDocsArray,
   validateIsoStringDate,
   validatePositiveNonZeroInteger,
   validateString,
@@ -55,7 +55,7 @@ const devilFruitSchema = new Schema<DevilFruitDocument>(
     current_user: {
       $type: [Schema.Types.Mixed],
       _id: false,
-      validate: newValidateSubDocsArray
+      validate: ValidateSubDocsArray
     },
     image: {
       $type: String,

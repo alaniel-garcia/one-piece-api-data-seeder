@@ -19,7 +19,7 @@ async function saveDocument(doc: CharacterDocument): Promise<void> {
   newCharacter.id = doc.id;
   newCharacter.name = doc.name;
   newCharacter.gender = doc.gender;
-  newCharacter.race = await getRaceInCharacterReference(doc.race as number);
+  newCharacter.race = await getRaceInCharacterReference(doc.race as unknown as number);
   newCharacter.origin = doc.origin;
   newCharacter.status = doc.status;
   if (doc.birthday != null) newCharacter.birthday = doc.birthday;

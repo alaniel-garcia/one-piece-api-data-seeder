@@ -5,7 +5,7 @@
 
 import { BASE_URL, collections } from '@utils/index';
 import mongoose from 'mongoose';
-import type { CollectionsPaths, NewSubDoc, SubDocument } from 'types';
+import type { Reference } from 'types';
 
 export function validateFirstStringLetterUppercase(value: string): true {
   const regexFirstLetterUppercase = /^[A-Z]/;
@@ -56,46 +56,6 @@ export function validateUrl(value: string): true {
   return true;
 }
 
-export function validateSubDoc(value: SubDocument): true {
-  if (!(typeof value === 'object' && value !== null)) throw new Error(`Invalid argument: ${value}. Must be an object.`);
-
-  if (!value.id) throw new Error(`Invalid argument: ${value}. Must have an 'id' property.`);
-  validatePositiveNonZeroInteger(value.id);
-
-  if (!value.name) throw new Error(`Invalid argument: ${value}. Must have a 'name' property.`);
-  validateString(value.name);
-
-  // if (!value.url) throw new Error(`Invalid argument: ${value}. Must have an 'url' property.`);
-  // validateUrl(value.url);
-
-  return true;
-}
-
-export function validateSubDocsArray(value: Array<SubDocument>): true {
-  if (!(Array.isArray(value) && value.length >= 1))
-    throw new Error('Argument must be an array with at least 1 element');
-
-  value.forEach((element) => validateSubDoc(element));
-
-  validateSubDocArraysDuplicity(value);
-  return true;
-}
-
-// Only validates duplicity due to every other valdiation which requires this one, has a particular need to treat other errors
-export function validateSubDocArraysDuplicity(array: Array<SubDocument>): true {
-  const ids = new Set();
-  const names = new Set();
-  for (const document of array) {
-    if (ids.has(document.id) || names.has(document.name)) {
-      throw new Error('Input Array must not have duplicate property values between sub documents');
-    }
-    ids.add(document.id);
-    names.add(document.name);
-  }
-
-  return true;
-}
-
 export function validateStringArray(array: Array<string>): true {
   if (!(Array.isArray(array) && array.length >= 1))
     throw new Error('Argument must be an array with at least one element');
@@ -122,16 +82,8 @@ export function validateIsoStringDate(dateString: string): true {
   return true;
 }
 
-export function generateValidSubDocUrl(path: CollectionsPaths, imageUrl = false): string {
-  const integer = Math.ceil(Math.random() * 10);
-  const firstPartUrl = `${BASE_URL}/${path}`;
-  const secondPartUrl = imageUrl ? `/image/${integer}` : `/${integer}`;
-
-  return firstPartUrl.concat(secondPartUrl);
-}
-
 // new subdocs based validations
-export function newValidateSubDoc(subdoc: NewSubDoc): true {
+export function ValidateSubDoc(subdoc: Reference): true {
   try {
     validatePositiveNonZeroInteger(subdoc as number);
   } catch (error) {
@@ -143,15 +95,15 @@ export function newValidateSubDoc(subdoc: NewSubDoc): true {
   return true;
 }
 
-export function newValidateSubDocsArray(array: Array<NewSubDoc>): true {
+export function ValidateSubDocsArray(array: Array<Reference>): true {
   for (const subdoc of array) {
-    newValidateSubDoc(subdoc);
+    ValidateSubDoc(subdoc);
   }
 
   return true;
 }
 
-export function newValidateSubDocArraysDuplicity(array: Array<NewSubDoc>): true {
+export function ValidateSubDocArraysDuplicity(array: Array<Reference>): true {
   const references = new Set();
   for (const ref of array) {
     if (references.has(ref)) {

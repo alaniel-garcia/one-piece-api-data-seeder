@@ -6,7 +6,7 @@ import {
   validation
 } from '@middlewares/index';
 import {
-  newValidateSubDocsArray,
+  ValidateSubDocsArray,
   validateIsoStringDate,
   validatePositiveNonZeroInteger,
   validateString,
@@ -40,7 +40,7 @@ const hakiAbilitySchema = new Schema<HakiAbilityDocument>(
       default: undefined,
       type: [Schema.Types.ObjectId],
       _id: false,
-      validate: newValidateSubDocsArray
+      validate: ValidateSubDocsArray
     },
     image: {
       type: String,
