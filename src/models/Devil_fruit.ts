@@ -53,7 +53,7 @@ const devilFruitSchema = new Schema<DevilFruitDocument>(
       validate: validateString
     },
     current_user: {
-      $type: Schema.Types.ObjectId,
+      $type: Schema.Types.Mixed,
       _id: false,
       validate: ValidateSubDoc
     },

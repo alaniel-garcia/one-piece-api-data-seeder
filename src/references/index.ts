@@ -78,3 +78,22 @@ export async function updateHakiAbilitiesInCharacter(): Promise<void> {
     })
   );
 }
+
+export async function updateCurrentUserInDevilFruit(): Promise<void> {
+  const devilFruitDocuments = await Devil_fruit.find({});
+  const characterDocuments = await Character.find({});
+
+  await Promise.all(
+    devilFruitDocuments.map(async (doc) => {
+      if (doc.current_user != null) {
+        for (const character of characterDocuments) {
+          if (character.id === doc.current_user) {
+            doc.current_user = character._id;
+          }
+        }
+
+        await doc.save();
+      }
+    })
+  );
+}

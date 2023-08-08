@@ -73,7 +73,7 @@ export interface DevilFruitDocument extends Document {
   type: DevilFruitType;
   meaning: string;
   description: string;
-  current_user?: Schema.Types.ObjectId | null;
+  current_user?: Reference | null;
   image?: string | null;
   url: string;
   created: string;

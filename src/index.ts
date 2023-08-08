@@ -8,7 +8,7 @@ import { devilFruitSeeder } from '@seeds/devilFruitSeeder';
 import Devil_fruit from '@models/Devil_fruit';
 import { hakiAbilitySeeder } from '@seeds/hakiAbilitySeeder';
 import Haki_ability from '@models/Haki_ability';
-import { updateHakiAbilitiesInCharacter } from 'references';
+import { updateCurrentUserInDevilFruit, updateHakiAbilitiesInCharacter } from 'references';
 
 dotenv.config();
 
@@ -34,6 +34,8 @@ const Character = models.characters;
   console.log('Total haki abilities: ', await Haki_ability.countDocuments());
   await updateHakiAbilitiesInCharacter();
   console.log('Haki abilities references in characters updated');
+  await updateCurrentUserInDevilFruit();
+  console.log('Current user references in devil fruits updated');
 })().catch((error) => {
   console.log('Error while connecting to Database', error);
 });
