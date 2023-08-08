@@ -17,13 +17,8 @@ export type CollectionsPaths =
 
 export type Reference = number | Schema.Types.ObjectId;
 
-export interface LuffyDevilFruitSubDoc extends SubDocument {
-  id: 1;
-  name: 'Hito Hito no Mi, Model: Nika';
-  alias: 'Gomu Gomu no Mi';
-}
-
 export type Status = 'Alive' | 'Deceased' | 'Unknown';
+export type HakiAbilityName = 'Armament' | 'Observation' | 'Conqueror';
 export type DevilFruitType = 'Paramecia' | 'Logia' | 'Zoan' | 'Mythical Zoan';
 
 // Documents
@@ -46,15 +41,15 @@ export interface CharacterDocument extends Document {
   race: Schema.Types.ObjectId;
   origin: string;
   status: Status;
-  birthday?: string;
-  main_occupations?: Array<string>;
-  devil_fruit?: Reference | Array<Reference>;
-  haki_abilities?: Array<Schema.Types.ObjectId>;
-  bounties?: Array<string>;
-  height?: string;
+  birthday?: string | null;
+  main_occupations?: Array<string> | null;
+  devil_fruit?: Reference | Array<Reference> | null;
+  haki_abilities?: Array<Schema.Types.ObjectId> | null;
+  bounties?: Array<string> | null;
+  height?: string | null;
   debut: Array<string>;
   backstory: string;
-  image?: string;
+  image?: string | null;
   url: string;
   created: string;
   last_updated: string;
@@ -65,7 +60,7 @@ export interface RaceDocument extends Document {
   name: string;
   homeland: string;
   about: string;
-  image?: string;
+  image?: string | null;
   url: string;
   created: string;
   last_updated: string;
@@ -74,12 +69,12 @@ export interface RaceDocument extends Document {
 export interface DevilFruitDocument extends Document {
   id: number;
   name: string;
-  alias?: 'Gomu Gomu no Mi'; // Apply only for Hito Hito no Mi, Model: Nika
+  alias?: 'Gomu Gomu no Mi' | null; // Apply only for Hito Hito no Mi, Model: Nika
   type: DevilFruitType;
   meaning: string;
   description: string;
-  current_user?: SubDocument;
-  image?: string;
+  current_user?: Schema.Types.ObjectId | null;
+  image?: string | null;
   url: string;
   created: string;
   last_updated: string;
@@ -87,7 +82,7 @@ export interface DevilFruitDocument extends Document {
 
 export interface HakiAbilityDocument extends Document {
   id: number;
-  name: string;
+  name: HakiAbilityName;
   description: string;
   users: Array<Schema.Types.ObjectId>;
   image: string;
@@ -101,7 +96,7 @@ export interface GroupDocument extends Document {
   name: string;
   members: Array<Reference>;
   background: string;
-  image?: string;
+  image?: string | null;
   url: string;
   created: string;
   last_updated: string;
@@ -111,11 +106,11 @@ export interface CrewDocument extends Document {
   id: number;
   name: string;
   captain: Schema.Types.ObjectId;
-  flag?: string;
-  main_ship?: Reference;
+  flag?: string | null;
+  main_ship?: Reference | null;
   members: Array<Reference>;
   background: string;
-  image?: string;
+  image?: string | null;
   url: string;
   created: string;
   last_updated: string;
@@ -140,8 +135,8 @@ export interface ShipDocument extends Document {
   description: string;
   ownership_type: 'Crew' | 'Group';
   ownership: Schema.Types.ObjectId;
-  flag?: string;
-  image?: string;
+  flag?: string | null;
+  image?: string | null;
   url: string;
   created: string;
   last_updated: string;
@@ -152,8 +147,8 @@ export interface LocationDocument extends Document {
   name: string;
   type: string;
   description: string;
-  population?: string;
-  government?: string;
+  population?: string | null;
+  government?: string | null;
   history: string;
   image: string;
   url: string;
