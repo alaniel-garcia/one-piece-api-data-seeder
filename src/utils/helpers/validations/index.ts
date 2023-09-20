@@ -45,12 +45,12 @@ export function validateUrl(value: string): true {
     throw new Error('Argument must be a valid uri format');
   }
 
-  const urlRegex = new RegExp(`^(${BASE_URL}/(${Object.values(collections).join('|')}))(?:/image)?/(?!0)\\d+$`);
-  // const urlRegex = new RegExp(`^${BASE_URL}/${Object.values(collections).join('|')}(?:/image)/(!0)\\d+$`);
-  // const urlRegex = new RegExp(``);
+  const urlRegex = new RegExp(
+    `^(${BASE_URL}/(${Object.values(collections).join('|')}))(?:/image)?/(?!0)\\d+(?:\\.(jpeg|gif))?$`
+  );
   if (!urlRegex.test(value))
     throw new Error(
-      `Invalid URL format. Please ensure that the URL matches the correct format: ${BASE_URL}/{collection}/{id} or ${BASE_URL}/{collection}/image/{id}, where {collection} is one of the available collections and {id} is a non-zero integer. Received: ${value}`
+      `Invalid URL format. Please ensure that the URL matches the correct format: ${BASE_URL}/{collection}/{id} or ${BASE_URL}/{collection}/image/{id}.jpeg/gif, where {collection} is one of the available collections and {id} is a non-zero integer. Received: ${value}`
     );
 
   return true;

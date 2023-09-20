@@ -70,7 +70,7 @@ const hakiAbilitySchema = new Schema<HakiAbilityDocument>(
 
 hakiAbilitySchema.set('validateBeforeSave', false);
 
-generateImageField(hakiAbilitySchema, 'haki_abilities');
+generateImageField(hakiAbilitySchema, 'haki_abilities', '.gif');
 generateUrlField(hakiAbilitySchema, 'haki_abilities');
 generateCreatedField(hakiAbilitySchema);
 setLastUpdatedField(hakiAbilitySchema);

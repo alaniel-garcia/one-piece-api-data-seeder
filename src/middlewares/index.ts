@@ -7,11 +7,11 @@ import type { Model } from 'mongoose';
 export function generateImageField<
   // exclude Member document type because Member has no image property
   T extends Exclude<DocumentTypes, MemberDocument>
->(schema: mongoose.Schema<T>, path: CollectionsPaths): void {
+>(schema: mongoose.Schema<T>, path: CollectionsPaths, extension = '.jpeg'): void {
   schema.pre('save', function (next) {
     const document = this as T;
     if ((document.isNew && document.image != null) || document.isModified('id')) {
-      document.image = `${BASE_URL}/${path}/image/${document.id}`;
+      document.image = `${BASE_URL}/${path}/image/${document.id}${extension}`;
     }
 
     next();
